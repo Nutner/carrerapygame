@@ -1,48 +1,52 @@
-import pygame
-import sys
+import pygame,sys
+import random
+
+class Runner():
+    def __init__(self,x=0,y=0):
+        self.costume =pygame.image.load("images/redm.png")
+        self.position = (x,y)
+        self.name= "Tortuga"
+        
+    def run(self):
+        self.position[0] += random.randint(1,6)
+
+    
+    
 
 class Game():
-    
-    runners = []
-    __starLine = 20
+    corredores = []
+    __startLine = 20
     __finishLine = 620
     
-    
     def __init__(self):
+        self.__screen = pygame.display.set_mode((640, 480))
+        self.__background = pygame.image.load("images/background.png")
+        pygame.display.set_caption("Carrera de tortugas")
         
-        screen = self.__screen = pygame.display.set_mode((640,480))
-        pygame.display.set_caption("Carrera de bichos")
-        self.background = pygame.image.load("images/background.png")
-        
-        self.runner = pygame.image.load("images/smallball.png")
-        
-        
-    def Competir(self):
-        
-        x = 0
-        
-        hayGanador = False
+        firstRunner = Runner(self.__startLine,240)
+        firstRunner.name = "speedy"
+        self.corredores.append(firstRunner)
         
         
-        while not hayGanador:
-            # comprobacion de eventos
+          
+        
+    def competir(self):
+        gameOver = False
+        while not gameOver:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                    
-            #Refrescar/renderizar la pantall
-            self.__screen.blit(self.background,(0,0))
-            self.__screen.blit(self.runner,(x,240))
+                    gameOver = True
+                   
+            self.__screen.blit(self.__background,(0,0))
+            self.__screen.blit(self.corredores[0].costume,self.corredores[0].position)
             pygame.display.flip()
-            x += 3
-            if x >= 250:
-                hayGanador = True
+                       
         pygame.quit()
         sys.exit()
         
         
+        
 if __name__ == "__main__":
-    pygame.init()
     game = Game()
-    game.Competir()
+    pygame.init()
+    game.competir()
