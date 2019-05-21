@@ -3,17 +3,28 @@ import sys
 
 class Game():
     
-    corredores = []
+    runners = []
+    __starLine = 20
+    __finishLine = 620
+    
     
     def __init__(self):
         
-        self.__screen = pygame.display.set_mode((640,480))
+        screen = self.__screen = pygame.display.set_mode((640,480))
         pygame.display.set_caption("Carrera de bichos")
-        self.background = pygame.image.load("images/background.jpeg")
+        self.background = pygame.image.load("images/background.png")
+        
+        self.runner = pygame.image.load("images/smallball.png")
+        
         
     def Competir(self):
         
-        while True:
+        x = 0
+        
+        hayGanador = False
+        
+        
+        while not hayGanador:
             # comprobacion de eventos
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -22,7 +33,13 @@ class Game():
                     
             #Refrescar/renderizar la pantall
             self.__screen.blit(self.background,(0,0))
+            self.__screen.blit(self.runner,(x,240))
             pygame.display.flip()
+            x += 3
+            if x >= 250:
+                hayGanador = True
+        pygame.quit()
+        sys.exit()
         
         
 if __name__ == "__main__":
